@@ -3,8 +3,9 @@ from bs4 import BeautifulSoup
 import re
 
 i = 1
-filename = "/Users/harrisonkarsch/Desktop/PythonScripts/webscrape/rosters/ursinus.txt"
-outfile = open(filename, "w")
+file_name = input("Enter the name for your file:")
+file_name_with_extension = file_name + ".txt"
+outfile = open(file_name_with_extension, "w")
 outfile.write("id | name | class | position | height | uni | hometown | highschool | Image \n")
 	
 def getdata(url): 
