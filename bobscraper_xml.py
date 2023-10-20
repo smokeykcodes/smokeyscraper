@@ -2,20 +2,23 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import xml.etree.ElementTree as ET
-from xml.dom import minidom
+from xml.dom.minidom import parseString
+
+i = 1
+
+file_name = input("Enter the name for your XML file: ")
+file_name_with_extension = file_name + ".xml"
 
 # Initialize an XML root element
 root = ET.Element('players')
-
-i = 1
 
 def get_data(url):
     r = requests.get(url)
     return r.text
 
 print("Gathering Player Info....")
-image_prefix = "https://lycomingathletics.com"
-htmldata = get_data("https://lycomingathletics.com/sports/football/roster")
+image_prefix = "https://ursinusathletics.com/"
+htmldata = get_data("https://ursinusathletics.com/sports/football/roster")
 soup = BeautifulSoup(htmldata, 'html.parser')
 
 for player in soup.find_all("li", class_="sidearm-roster-player"):
@@ -64,9 +67,9 @@ tree = ET.ElementTree(root)
 
 # Pretty print the XML
 xml_str = ET.tostring(root, encoding='utf-8').decode()
-xml_str = minidom.parseString(xml_str).toprettyxml()
+xml_str = parseString(xml_str).toprettyxml()
 
-with open('players.xml', 'w') as xml_file:
+with open(file_name_with_extension, 'w') as xml_file:
     xml_file.write(xml_str)
 
-print("Done! Data has been exported to players.xml")
+print(f"Done! Data has been exported to {file_name_with_extension}")
